@@ -1,2 +1,2 @@
 # jukebox
-A study project using bun and Lit elements
+A study project using Bun and Lit elements
