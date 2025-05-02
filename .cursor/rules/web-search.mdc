@@ -1,0 +1,14 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+# Search sources:
+
+- Always look at the following websites to update the information into the data.json file
+
+@Web @https://www.motogp.com/en/calendar?view=grid
+@Web @https://www.formula1.com/en/racing/2025
+@Web @https://www.fiaformula2.com/Calendar
+@Web @https://www.fiawec.com/en/calendar/80
