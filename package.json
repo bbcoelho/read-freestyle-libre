@@ -1,12 +1,19 @@
 {
-  "name": "read-freestyle-libre",
-  "type": "module",
-  "scripts": {},
-  "devDependencies": {
-    "@google/clasp": "^3.0.3-alpha",
-    "@types/bun": "latest",
-    "@types/google-apps-script": "^1.0.97",
-    "gts": "^6.0.2"
-  },
-  "dependencies": {}
+	"name": "read-freestyle-libre",
+	"version": "1.0.0",
+	"type": "module",
+	"scripts": {
+		"login": "clasp login",
+		"open": "clasp open",
+		"pull": "clasp pull",
+		"push": "clasp push --force",
+		"dev": "bun push --watch --force"
+	},
+	"devDependencies": {
+		"@google/clasp": "^3.0.3-alpha",
+		"@types/bun": "latest",
+		"@types/google-apps-script": "^1.0.97",
+		"gts": "^6.0.2"
+	},
+	"dependencies": {}
 }
