@@ -9,10 +9,9 @@
 		"dev": "bun push --watch --force"
 	},
 	"devDependencies": {
-		"@google/clasp": "^3.0.3-alpha",
-		"@types/bun": "latest",
-		"@types/google-apps-script": "^1.0.97",
-		"gts": "^6.0.2"
+		"@google/clasp": "^2.4.1",
+		"@types/google-apps-script": "^1.0.45",
+		"gts": "^3.1.0"
 	},
 	"dependencies": {}
 }
