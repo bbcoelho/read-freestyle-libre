@@ -1,5 +1,15 @@
 {
     "extends": "./node_modules/gts/tsconfig-google.json",
+    "compilerOptions": {
+        "module": "none",
+        "experimentalDecorators": true,
+        "lib": [
+            "esnext"
+        ],
+        "target": "ES6",
+        "strict": true,
+        "sourceMap": true
+    },
     "include": [
         "./src/**/*.ts"
     ]
