@@ -1,11 +1,8 @@
 namespace View {
 
-    export function getSheet(): GoogleAppsScript.Spreadsheet.Sheet {
-        const SPREAD_SHEET_ID = '1NRH4u6tyr5RJPwq1tkvKXuRAnLPAMSTVC8T2YVRCsHY';
-        const SHEET_NAME = 'Sheet1';
-
-        const spreadSheet = SpreadsheetApp.openById(SPREAD_SHEET_ID);
-        const sheet = spreadSheet.getSheetByName(SHEET_NAME);
+    export function getSheet(spreadSheetId: string, sheetName: string): GoogleAppsScript.Spreadsheet.Sheet {
+        const spreadSheet = SpreadsheetApp.openById(spreadSheetId);
+        const sheet = spreadSheet.getSheetByName(sheetName);
         if (!sheet) {
             throw new Error('Sheet not found');
         }
