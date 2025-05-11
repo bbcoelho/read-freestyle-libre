@@ -10,8 +10,47 @@ namespace View {
         return sheet;
     }
 
-    export function render(dataPoint: Model.dataPoint, sheet: GoogleAppsScript.Spreadsheet.Sheet): void {
-        sheet.appendRow([dataPoint.time, dataPoint.glycemic]);
+    export function render(dataPoints: Model.dataPoint[], sheet: GoogleAppsScript.Spreadsheet.Sheet): void {
+        sheet.insertRowsAfter(2, dataPoints.length + 1);
+        const range = sheet.getRange(2, 1, dataPoints.length, 2);
+        range.setValues(dataPoints.map(item => [item.time, item.glycemic]));
+        insertChart(sheet, range);
+    }
+
+    function insertChart(sheet: GoogleAppsScript.Spreadsheet.Sheet, range: GoogleAppsScript.Spreadsheet.Range): void {
+        const charts = sheet.getCharts();
+        if (charts.length > 0) {
+            for (const chart of charts) {
+                sheet.removeChart(chart);
+            }
+        }
+
+        const chart = sheet.newChart()
+            .setChartType(Charts.ChartType.LINE)
+            .addRange(range)
+            .setPosition(2, 6, 0, 0)
+            .setOption('height', 660)
+            .setOption('width', 1000)
+            .setOption('title', `${new Date(Date.now()).toLocaleDateString('pt-BR')}`)
+            .setOption('curveType', 'function')
+            .setOption('pointSize', 2)
+            .setOption('titleTextStyle', {
+                color: 'black',
+                bold: true,
+                alignment: 'center'
+            })
+            .setOption('vAxis', {
+                minValue: 40,
+                maxValue: 400,
+                gridlines: { color: 'black', count: 10 },
+                minorGridlines: { color: '#CCC', count: 1 }
+            })
+            .setOption('hAxis', {
+                gridlines: { color: 'black', count: 6 },
+                minorGridlines: { color: '#CCC', count: 3 }
+            })
+            .build();
+        sheet.insertChart(chart);
     }
 
 }
