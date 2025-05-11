@@ -4,15 +4,12 @@ function doGet() {
 
 	const sheet = View.getSheet(SPREAD_SHEET_ID, SHEET_NAME);
 
-	sheet.clearContents();
-
-	const startTime = new Date('2025-05-10T00:00:00Z').getTime();
-	const endTime = new Date('2025-05-11T00:00:00Z').getTime();
+	// get last 24 hours in milliseconds
+	const endTime = Date.now();
+	const startTime = endTime - (1000 * 60 * 60 * 24);
 
 	const dataPoints = Model.fetchData(startTime, endTime);
 	if (dataPoints) {
-		for (const dataPoint of dataPoints) {
-			View.render(dataPoint, sheet);
-		}
+		View.render(dataPoints, sheet);
 	}
 }
