@@ -11,9 +11,12 @@ namespace View {
     }
 
     export function render(dataPoints: Model.dataPoint[], sheet: GoogleAppsScript.Spreadsheet.Sheet): void {
+        // render values
         sheet.insertRowsAfter(2, dataPoints.length + 1);
-        const range = sheet.getRange(2, 1, dataPoints.length, 2);
-        range.setValues(dataPoints.map(item => [item.time, item.glycemic]));
+        let range = sheet.getRange(2, 2, dataPoints.length, 3);
+        range.setValues(dataPoints.map(item => [item.time, item.time, item.glycemic]));
+        // render chart
+        range = sheet.getRange(2, 2, dataPoints.length, 2);
         insertChart(sheet, range);
     }
 
@@ -28,7 +31,7 @@ namespace View {
         const chart = sheet.newChart()
             .setChartType(Charts.ChartType.LINE)
             .addRange(range)
-            .setPosition(2, 6, 0, 0)
+            .setPosition(2, 7, 0, 0)
             .setOption('height', 660)
             .setOption('width', 1000)
             .setOption('title', `${new Date(Date.now()).toLocaleDateString('pt-BR')}`)
