@@ -22,11 +22,6 @@ namespace View {
 
     function insertChart(sheet: GoogleAppsScript.Spreadsheet.Sheet, range: GoogleAppsScript.Spreadsheet.Range): void {
         const charts = sheet.getCharts();
-        if (charts.length > 0) {
-            for (const chart of charts) {
-                sheet.removeChart(chart);
-            }
-        }
 
         const chart = sheet.newChart()
             .setChartType(Charts.ChartType.LINE)
