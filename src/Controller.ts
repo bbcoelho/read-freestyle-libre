@@ -1,6 +1,6 @@
 function doGet() {
 	const SPREAD_SHEET_ID = '1NRH4u6tyr5RJPwq1tkvKXuRAnLPAMSTVC8T2YVRCsHY';
-	const SHEET_NAME = 'TESTE';
+	const SHEET_NAME = 'Leituras';
 
 	const sheet = View.getSheet(SPREAD_SHEET_ID, SHEET_NAME);
 

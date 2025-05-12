@@ -13,7 +13,7 @@ namespace View {
     export function render(dataPoints: Model.dataPoint[], sheet: GoogleAppsScript.Spreadsheet.Sheet): void {
         // render values
         sheet.insertRowsAfter(2, dataPoints.length + 1);
-        let range = sheet.getRange(2, 2, dataPoints.length, 3);
+        let range = sheet.getRange(2, 1, dataPoints.length, 3);
         range.setValues(dataPoints.map(item => [item.time, item.time, item.glycemic]));
         // render chart
         range = sheet.getRange(2, 2, dataPoints.length, 2);
@@ -22,11 +22,12 @@ namespace View {
 
     function insertChart(sheet: GoogleAppsScript.Spreadsheet.Sheet, range: GoogleAppsScript.Spreadsheet.Range): void {
         const charts = sheet.getCharts();
+        console.log("charts", charts.length);
 
         const chart = sheet.newChart()
             .setChartType(Charts.ChartType.LINE)
             .addRange(range)
-            .setPosition(2, 7, 0, 0)
+            .setPosition(3, 7, 0, 0)
             .setOption('height', 660)
             .setOption('width', 1000)
             .setOption('title', `${new Date(Date.now()).toLocaleDateString('pt-BR')}`)
