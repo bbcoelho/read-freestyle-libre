@@ -21,9 +21,6 @@ namespace View {
     }
 
     function insertChart(sheet: GoogleAppsScript.Spreadsheet.Sheet, range: GoogleAppsScript.Spreadsheet.Range): void {
-        const charts = sheet.getCharts();
-        console.log("charts", charts.length);
-
         const chart = sheet.newChart()
             .setChartType(Charts.ChartType.LINE)
             .addRange(range)
