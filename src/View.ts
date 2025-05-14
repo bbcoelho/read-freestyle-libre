@@ -49,4 +49,49 @@ namespace View {
         sheet.insertChart(chart);
     }
 
+    export function updateCharts(sheet: GoogleAppsScript.Spreadsheet.Sheet): void {
+        const map = mapChartRanges(sheet);
+    
+        const charts = sheet.getCharts();
+        for (let chart of charts) {
+            const chartId = chart.getChartId();
+            if (chartId != null) {
+                const range = map.get(chartId.toString());
+                if (range) {
+                    chart = chart.modify().clearRanges().addRange(range).build();
+                    sheet.updateChart(chart);
+                }
+            }
+        }
+    }
+    
+    function mapChartRanges(sheet: GoogleAppsScript.Spreadsheet.Sheet): Map<string, GoogleAppsScript.Spreadsheet.Range> {
+        const map = new Map<string, GoogleAppsScript.Spreadsheet.Range>();
+        
+        const charts = sheet.getCharts().reverse();
+        let chartIds: string[] = [];
+        for (const chart of charts) {
+            const chartId = chart.getChartId();
+            if (chartId != null) {
+                chartIds.push(chartId.toString());
+            }
+        }
+        
+        const dataRows = sheet.getRange(1, 1, sheet.getLastRow(), 1).getValues();
+        let row = 1;
+        let firstRangeRow = row + 1;
+        let lastRangeRow = row + 1;
+    
+        for (const chartId of chartIds) {
+            while (row < dataRows.length && dataRows[row][0] != '') {
+                row++;
+            }
+            lastRangeRow = row;
+            map.set(chartId, sheet.getRange(firstRangeRow, 2, lastRangeRow - firstRangeRow + 1, 2));
+            row = row + 2;
+            firstRangeRow = row + 1;
+        }
+    
+        return map;
+    }
 }
