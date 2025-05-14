@@ -13,8 +13,8 @@ namespace View {
     export function render(dataPoints: Model.dataPoint[], sheet: GoogleAppsScript.Spreadsheet.Sheet): void {
         // render values
         sheet.insertRowsAfter(2, dataPoints.length + 1);
-        let range = sheet.getRange(2, 1, dataPoints.length, 3);
-        range.setValues(dataPoints.map(item => [item.time, item.time, item.glycemic]));
+        let range = sheet.getRange(2, 1, dataPoints.length, 17);
+        range.setValues(dataPoints.map(item => [item.time, item.time, item.glycemic, '', '', '', '', '', '', '', '', '', '', '', '', 70, 190]));
         // render chart
         range = sheet.getRange(2, 2, dataPoints.length, 2);
         insertChart(sheet, range);
@@ -57,17 +57,27 @@ namespace View {
         for (let chart of charts) {
             const chartId = chart.getChartId();
             if (chartId != null) {
-                const range = map.get(chartId.toString());
-                if (range) {
-                    chart = chart.modify().clearRanges().addRange(range).build();
+                const ranges = map.get(chartId.toString());
+                if (ranges) {
+                    const glycemicRange = ranges[0];
+                    const hypoThresholdRange = ranges[1];
+                    const hyperThresholdRange = ranges[2];
+
+                    chart = chart.modify()
+                        .clearRanges()
+                        .addRange(glycemicRange)
+                        .addRange(hypoThresholdRange)
+                        .addRange(hyperThresholdRange)
+                        .build();
+
                     sheet.updateChart(chart);
                 }
             }
         }
     }
     
-    function mapChartRanges(sheet: GoogleAppsScript.Spreadsheet.Sheet): Map<string, GoogleAppsScript.Spreadsheet.Range> {
-        const map = new Map<string, GoogleAppsScript.Spreadsheet.Range>();
+    function mapChartRanges(sheet: GoogleAppsScript.Spreadsheet.Sheet): Map<string, GoogleAppsScript.Spreadsheet.Range[]> {
+        const map = new Map<string, GoogleAppsScript.Spreadsheet.Range[]>();
         
         const charts = sheet.getCharts().reverse();
         let chartIds: string[] = [];
@@ -84,11 +94,19 @@ namespace View {
         let lastRangeRow = row + 1;
     
         for (const chartId of chartIds) {
+            const ranges: GoogleAppsScript.Spreadsheet.Range[] = [];
             while (row < dataRows.length && dataRows[row][0] != '') {
                 row++;
             }
             lastRangeRow = row;
-            map.set(chartId, sheet.getRange(firstRangeRow, 2, lastRangeRow - firstRangeRow + 1, 2));
+
+            const glycemicDataRange = sheet.getRange(firstRangeRow, 2, lastRangeRow - firstRangeRow + 1, 2);
+            const hypoThresholdDataRange = sheet.getRange(firstRangeRow, 16, lastRangeRow - firstRangeRow + 1, 1);
+            const hyperThresholdDataRange = sheet.getRange(firstRangeRow, 17, lastRangeRow - firstRangeRow + 1, 1);
+            ranges.push(glycemicDataRange, hypoThresholdDataRange, hyperThresholdDataRange);
+
+            map.set(chartId, ranges);
+
             row = row + 2;
             firstRangeRow = row + 1;
         }
