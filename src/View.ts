@@ -68,6 +68,7 @@ namespace View {
                         .addRange(glycemicRange)
                         .addRange(hypoThresholdRange)
                         .addRange(hyperThresholdRange)
+                        .setOption('legend', { position: 'none' })
                         .build();
 
                     sheet.updateChart(chart);
