@@ -18,6 +18,7 @@ namespace View {
         // render chart
         range = sheet.getRange(2, 2, dataPoints.length, 2);
         insertChart(sheet, range);
+        updateCharts(sheet);
     }
 
     function insertChart(sheet: GoogleAppsScript.Spreadsheet.Sheet, range: GoogleAppsScript.Spreadsheet.Range): void {
@@ -49,7 +50,7 @@ namespace View {
         sheet.insertChart(chart);
     }
 
-    export function updateCharts(sheet: GoogleAppsScript.Spreadsheet.Sheet): void {
+    function updateCharts(sheet: GoogleAppsScript.Spreadsheet.Sheet): void {
         const map = mapChartRanges(sheet);
     
         const charts = sheet.getCharts();

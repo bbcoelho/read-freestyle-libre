@@ -20,7 +20,6 @@ function doGet() {
 	const dataPoints = Model.fetchData(startTime, endTime);
 	if (dataPoints) {
 		View.render(dataPoints, sheet);
-		View.updateCharts(sheet);
 	}
 
 	// stores the last endTime
